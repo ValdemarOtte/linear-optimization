@@ -1,2 +1,2 @@
 # linear-optimering
-Forskellige scripts til lineær problemer
+Forskellige scripts til lineær optimerings problemer
