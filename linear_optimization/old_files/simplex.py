@@ -5,45 +5,34 @@ from fractions import Fraction
 
 
 # NOTE : Change these values
-A = [
-    [1, 1, 2, 1, 0, 0],
-    [2, 0, 3, 0, 1, 0],
-    [2, 1, 4, 0, 0, 1]
-]
+A = [[1, 1, 2, 1, 0, 0], [2, 0, 3, 0, 1, 0], [2, 1, 4, 0, 0, 1]]
 
-B = [
-    [0],
-    [4],
-    [5],
-    [7]
-]
+B = [[0], [4], [5], [7]]
 
-C = [
-    [-3, -2, -4, 0, 0, 0]
-]
+C = [[-3, -2, -4, 0, 0, 0]]
 
 
 # NOTE : Constants
-x = Symbol('x')
+x = Symbol("x")
 ERROR_RUN_TIME = 20
-ERROR_VALUE = 1 * 10**(-10)
+ERROR_VALUE = 1 * 10 ** (-10)
 
 
 def find_names(lenght):
     names = []
     for idx in range(lenght):
-        names.append(f'x{idx+1}')
+        names.append(f"x{idx+1}")
     return names
 
 
 def find_base_solutions(lenght, Mat):
     solutions = []
     for idx in range(rows - 1):
-        val = float_to_fraction(Mat[idx+1, cols-1])
+        val = float_to_fraction(Mat[idx + 1, cols - 1])
         solutions.append(str(val))
-    base_solutions = ['0' for i in range(lenght)]
+    base_solutions = ["0" for i in range(lenght)]
     for idx, elem in enumerate(base):
-        base_solutions[int(elem)-1] = str(solutions[idx])
+        base_solutions[int(elem) - 1] = str(solutions[idx])
     return base_solutions
 
 
@@ -145,19 +134,19 @@ def print_tableau_with_frations_spacing(A):
     # Rewrite the values in B with the right spacing between values
     for row in B:
         for idx, val in enumerate(row):
-            row[idx] = ' ' + ' '*(D[idx][0] - len(val)) + val
+            row[idx] = " " + " " * (D[idx][0] - len(val)) + val
     # Print matrix B
     # FIXME: Can only do up to x9
     names = []
     for num in range(lenght - 1):
         names.append(f" {' '*(D[num][0] - 2)}x{num+1}")
     names.append(f" {' '*(D[num][0] - 3)}RHS")
-    lenght = len(str(' '.join(names)))
-    print(' '.join(names))
+    lenght = len(str(" ".join(names)))
+    print(" ".join(names))
     for idx, row in enumerate(B):
         if idx == 0 or idx == 1:
-            print("-"*lenght)
-        print(' '.join(row))
+            print("-" * lenght)
+        print(" ".join(row))
 
 
 def set_up(A, B, C):
@@ -190,20 +179,22 @@ while count < ERROR_RUN_TIME:
         print()
         names = find_names(Mat.shape[1] - 1)
         base_solutions = find_base_solutions((Mat.shape[1] - 1), Mat)
-        print(f"Dermed ses det, at alle reduceret omkostninger er ikke-negative og løsningen ({', '.join(names)}) = ({', '.join(base_solutions)}) er optimal")
+        print(
+            f"Dermed ses det, at alle reduceret omkostninger er ikke-negative og løsningen ({', '.join(names)}) = ({', '.join(base_solutions)}) er optimal"
+        )
         break
     pivot_col = np.argmin(Mat[0])
     rows, cols = Mat.shape
     theta = []
     print_theta = []
     for idx in range(rows - 1):
-        if Mat[idx+1, pivot_col] > 0:
-            theta.append(Mat[idx+1, cols-1] / Mat[idx+1, pivot_col])
-            a = float_to_fraction(Mat[idx+1, cols-1])
-            b = float_to_fraction(Mat[idx+1, pivot_col])
+        if Mat[idx + 1, pivot_col] > 0:
+            theta.append(Mat[idx + 1, cols - 1] / Mat[idx + 1, pivot_col])
+            a = float_to_fraction(Mat[idx + 1, cols - 1])
+            b = float_to_fraction(Mat[idx + 1, pivot_col])
             print_theta.append(f"{a}/{b}")
         else:
-            theta.append(float('inf'))
+            theta.append(float("inf"))
     a = float_to_fraction(np.amin(theta))
     b = np.argmin(theta) + 1
 
@@ -219,6 +210,8 @@ while count < ERROR_RUN_TIME:
     print()
     print(f"Den største negative værdi i omkostningerne er {neg_val}")
     print(f"Theta = min({', '.join(print_theta)}) = {a}")
-    print(f"x{base_in} skal ind i basen, mens x{base_out} skal ud. Dermed er basen ({', '.join(base)})")
+    print(
+        f"x{base_in} skal ind i basen, mens x{base_out} skal ud. Dermed er basen ({', '.join(base)})"
+    )
     print("Dermed")
     print_tableau_with_frations_spacing(Mat)

@@ -4,15 +4,11 @@ from sympy.solvers import solve
 from sympy import Symbol
 
 # INFO : Constants
-x = Symbol('x')
+x = Symbol("x")
 
 
 # INFO: Inputs
-A = [
-    [1, 2, 3, 1],
-    [4, 5, 6, 1],
-    [7, 8, 9, 1]
-]
+A = [[1, 2, 3, 1], [4, 5, 6, 1], [7, 8, 9, 1]]
 
 pivot = [1, 2]
 
@@ -41,6 +37,7 @@ def ref(A, pivot):
     # The new matrix
     A_new = A + B * C
     return A_new, solutions
+
 
 # print_matrix_with_frations_spacing will change matrix to fractions and print it with even spacing
 def print_matrix_with_frations_spacing(A):
@@ -74,13 +71,13 @@ def print_matrix_with_frations_spacing(A):
     # Rewrite the values in B with the right spacing between values
     for row in B:
         for idx, val in enumerate(row):
-            row[idx] = ' ' + ' '*(D[idx][0] - len(val)) + val
+            row[idx] = " " + " " * (D[idx][0] - len(val)) + val
     # Print matrix B
     for row in B:
-        print(' '.join(row))
+        print(" ".join(row))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     A = np.matrix(A)
     B, solutions = ref(A, pivot)
     print(f"{'='*15} Input {'='*15}")

@@ -1,0 +1,21 @@
+# Django
+db.sqlite3
+
+# Environments
+.venv
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+
+# File types
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+
+# pytest
+.pytest_cache/
