@@ -1,5 +1,7 @@
 from math import inf
 
+from linear_optimization.graph import Graph
+
 
 tree = [
     ("A", "B", 5),
@@ -25,69 +27,28 @@ tree = [
     ("4", "6", 9),
     ("5", "4", 1),
     ("5", "6", 6),
-]
-
-class Node():
-    def __init__(self, ind: str, ud: str, cost: int) -> None:
-        # FIXME : Find better names to "ind" and "ud" 
-        self.ind = ind
-        self.ud = ud
-        self.cost = cost
-        # NOTE : Add self.amount. Find a better name
-    
-    def __str__(self):
-        return f"({self.ind} {self.ud} {self.cost})"
-    
-    def __repr__(self):
-        return f"({self.ind} {self.ud} {self.cost})"
-
-
-class Graph():
-    def __init__(self):
-        self.nodes = []
-        self.nodes_names = []
-    
-    def add_node(self, node):
-        node = Node(node[0], node[1], node[2])
-        self.nodes.append(node)
-
-        if node.ind not in self.nodes_names:
-            self.nodes_names.append(node.ind)
-        if node.ud not in self.nodes_names:
-            self.nodes_names.append(node.ud)
-
-
-
-    
+]   
 
 
 
 class BellmandFord():
 
-    def create_tabel(self, names) -> list[list[str]]:
-        tabel = []
-        tabel.append([" "] + names)
-        for name in names:
-            tabel.append([name] + [" "]*len(names))
-        return tabel
-
-
     def solver(self, graph, start):
-        #tabel = self.create_tabel(graph.nodes_names)
-        tabel = [[inf for name in graph.nodes_names]]
+        tabel = [[inf for name in graph.egdes]]
 
-        i = graph.nodes_names.index(start)
+        i = graph.egdes.index(start)
 
         tabel[0][i] = 0
 
-        for i in range(len(graph.nodes_names) - 1):
+        for i in range(len(graph.egdes) - 1):
             t = tabel[-1][:]
             t1 = tabel[-1][:]
             for node in graph.nodes:
-                if t[graph.nodes_names.index(node.ud)] != inf and t[graph.nodes_names.index(node.ud)] + node.cost < t[graph.nodes_names.index(node.ind)]:
-                    t1[graph.nodes_names.index(node.ind)] = t[graph.nodes_names.index(node.ud)] + node.cost
-                print(t1)
-            print()
+                if t[graph.egdes.index(node.ud)] != inf and t[graph.egdes.index(node.ud)] + node.cost < t[graph.egdes.index(node.ind)]:
+                    t1[graph.egdes.index(node.ind)] = t[graph.egdes.index(node.ud)] + node.cost
+        
+            if t == t1:
+                break
             tabel.append(t1)
 
 
@@ -96,12 +57,12 @@ class BellmandFord():
             print(row)
         
 
-
+# NOTE : Delete if __name__ == "__main__" when the algorithm is complet
 if __name__ == "__main__":
-    g = Graph()
+    graph = Graph()
 
     for node in tree:
-        g.add_node(node)
+        graph.add_node(node)
     
     b = BellmandFord()
-    b.solver(g, "6")
+    b.solver(graph, "5")
